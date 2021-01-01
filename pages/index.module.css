@@ -1,0 +1,33 @@
+.form__container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+.form__container > button {
+  margin-top: 7px;
+}
+
+.widget__wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.widget__container {
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  width: 250px;
+}
+
+.widget__container > * {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
