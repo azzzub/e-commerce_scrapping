@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-import style from './index.module.css'
+import Head from 'next/head'
+import ProductWidget from '../components/widget/ProductWidget'
 
 const Homepage = () => {
   const [keyword, setKeyword] = useState('')
@@ -8,6 +11,63 @@ const Homepage = () => {
   const [page, setPage] = useState('1')
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState(null)
+
+  const dummyProduct = [
+    {
+      name: 'This is the Long Product Name Blabla',
+      price: 'Rp. 2,333,333',
+      sold: 'Terjual 10',
+      url: '/',
+      image_url:
+        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
+      rating_average: '4,4'
+    },
+    {
+      name: 'This is the Long Product Name Blabla',
+      price: 'Rp. 2,333,333',
+      sold: 'Terjual 10',
+      url: '/',
+      image_url:
+        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
+      rating_average: '4,4'
+    },
+    {
+      name: 'This is the Long Product Name Blabla',
+      price: 'Rp. 2,333,333',
+      sold: 'Terjual 10',
+      url: '/',
+      image_url:
+        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
+      rating_average: '4,4'
+    },
+    {
+      name: 'This is the Long Product Name Blabla',
+      price: 'Rp. 2,333,333',
+      sold: 'Terjual 10',
+      url: '/',
+      image_url:
+        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
+      rating_average: '4,4'
+    },
+    {
+      name: 'This is the Long Product Name Blabla',
+      price: 'Rp. 2,333,333',
+      sold: 'Terjual 10',
+      url: '/',
+      image_url:
+        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
+      rating_average: '4,4'
+    },
+    {
+      name: 'This is the Long Product Name Blabla',
+      price: 'Rp. 2,333,333',
+      sold: 'Terjual 10',
+      url: '/',
+      image_url:
+        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
+      rating_average: '4,4'
+    }
+  ]
 
   const handleKeywordChange = (event) => {
     setKeyword(event.target.value)
@@ -24,6 +84,7 @@ const Homepage = () => {
   const fetchHandler = async (event) => {
     event.preventDefault()
     setIsLoading(true)
+    setData(null)
     const URL = 'http://localhost:5000/tokped/simple'
     try {
       const response = await axios.get(URL, {
@@ -44,40 +105,52 @@ const Homepage = () => {
   }
 
   return (
-    <div>
-      <h1>Tokped Scrapping!</h1>
-      <form className={style.form__container} onSubmit={fetchHandler}>
-        <label>Keyword: </label>
-        <input type="text" required onChange={handleKeywordChange} />
+    <div className="mx-5 my-3 md:mx-10 md:my-4 lg:mx-32 lg:my-7">
+      <Head>
+        <title>Softhm Ecompare</title>
+      </Head>
+      <nav className="flex flex-col md:flex-row w-full h-auto items-center justify-between mb-7">
+        <h1>ecompare</h1>
+        <form
+          onSubmit={fetchHandler}
+          className="flex flex-row bg-gray-100 px-5 py-2 rounded-xl items-center mt-3 lg:mt-0"
+        >
+          <input
+            className="bg-transparent text-gray-700 mr-3 w-full lg:w-96"
+            type="text"
+            placeholder="Search for items, brand, and inspiration"
+            required
+            onChange={handleKeywordChange}
+          />
+          <FontAwesomeIcon
+            className="cursor-pointer"
+            type="submit"
+            icon={faSearch}
+          />
+        </form>
+      </nav>
+      {/* <form className="flex flex-col" onSubmit={fetchHandler}>
         <label>Minimum Price: </label>
         <input type="number" onChange={handleMinPriceChange} />
         <label>Page: </label>
         <input type="number" onChange={handlePageChange} />
-        <button type="submit" disabled={isLoading}>
+        <button className="btn-primary" type="submit" disabled={isLoading}>
           Fetch Data!
         </button>
-      </form>
-      <div className={style.widget__wrapper}>
+      </form> */}
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
         {data
-          ? data.products.map((product, index) => (
-              <Widget key={index} data={product} />
+          ? data.products.map((product: TokpedProduct, index: number) => (
+              <ProductWidget key={index} product={product} />
             ))
           : null}
+        {/* {dummyProduct.map((product, index) => (
+          <Widget key={index} product={product} />
+        ))}
+        {dummyProduct.map((product, index) => (
+          <Widget key={index} product={product} />
+        ))} */}
       </div>
-    </div>
-  )
-}
-
-const Widget = ({ data }) => {
-  const { name, price, sold, url, image_url, rating_average } = data
-  return (
-    <div className={style.widget__container}>
-      <img src={image_url} />
-      <h4>{name}</h4>
-      <h4>{price}</h4>
-      <p>{sold}</p>
-      <p>{rating_average}</p>
-      <button onClick={() => window.open(url)}>Link</button>
     </div>
   )
 }
