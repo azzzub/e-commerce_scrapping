@@ -125,6 +125,7 @@ const Homepage = () => {
           <FontAwesomeIcon
             className="cursor-pointer"
             type="submit"
+            onClick={fetchHandler}
             icon={faSearch}
           />
         </form>

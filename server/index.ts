@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import axios from 'axios'
 import dotenv from 'dotenv'
 import Tokped from './@types/TokpedResponse'
+import finalArray from './helper/arraySorting'
 dotenv.config()
 
 const app = express()
@@ -45,31 +46,50 @@ const tokpedFetch = async (req: Request, res: Response) => {
         tokpedResponse.data.ace_search_product_v4.header.totalData
       const rawDataTokped = tokpedResponse.data.ace_search_product_v4.data
 
-      rawDataTokped.products.map(
-        (product: Tokped.TokpedProduct, _index: number) => {
-          let sold = ''
-          product.labelGroups.forEach((element: Tokped.TokpedLabelGroup) => {
-            if (element.position === 'integrity') {
-              sold = element.title
-            }
-          })
-          const finalTokpedProductJson = {
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            url: product.url,
-            sold,
-            image_url: product.imageUrl,
-            rating_average: product.ratingAverage
+      rawDataTokped.products.map((product: Tokped.TokpedProduct) => {
+        let soldString = ''
+        product.labelGroups.forEach((element: Tokped.TokpedLabelGroup) => {
+          if (element.position === 'integrity') {
+            soldString = element.title
           }
+        })
 
-          tokpedProduct.push(finalTokpedProductJson)
+        const price = parseInt(
+          product.price?.replace('Rp', '').replace('.', '')
+        )
+        const isThousands = soldString.split(' ').length
+
+        let sold
+
+        if (isThousands === 2) {
+          sold = parseInt(soldString.split(' ')[1])
+        } else {
+          sold = parseInt(soldString.split(' ')?.[1]?.replace(',', '')) * 100
         }
-      )
+
+        const rating = parseFloat(product.ratingAverage?.replace(',', '.'))
+
+        const finalTokpedProductJson = {
+          id: product.id,
+          name: product.name,
+          url: product.url,
+          imageUrl: product.imageUrl,
+          price,
+          priceString: product.price,
+          sold,
+          soldString,
+          rating,
+          ratingString: product.ratingAverage
+        }
+
+        tokpedProduct.push(finalTokpedProductJson)
+      })
+
+      const soldSortingArray = finalArray(tokpedProduct)
 
       const jsonData = {
         totalData,
-        products: tokpedProduct
+        products: soldSortingArray
         // products: rawDataTokped
       }
 

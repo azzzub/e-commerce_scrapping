@@ -41,4 +41,4 @@ declare module Tokped {
   }
 }
 
-export = Tokped
+export default Tokped

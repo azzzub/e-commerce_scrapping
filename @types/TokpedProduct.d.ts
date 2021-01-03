@@ -1,8 +1,11 @@
 interface TokpedProduct {
   name: string
-  price: string
-  sold: string
   url: string
-  image_url: string
-  rating_average: string
+  imageUrl: string
+  price: number
+  priceString: string
+  sold: number
+  soldString: string
+  rating: number
+  ratingString: string
 }

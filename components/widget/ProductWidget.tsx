@@ -9,21 +9,21 @@ interface WidgetProps {
 }
 
 const ProductWidget: React.FC<WidgetProps> = ({ product }) => {
-  const { name, price, sold, url, image_url, rating_average } = product
+  const { name, priceString, soldString, url, imageUrl, ratingString } = product
 
   return (
     <div className="flex flex-col cursor-pointer hover:opacity-80">
-      <img className="rounded-3xl" src={image_url} />
+      <img className="rounded-3xl" src={imageUrl} />
       <span className="text-sm mt-1">{name}</span>
-      <span className="font-extrabold text-lg">{price}</span>
+      <span className="font-extrabold text-lg">{priceString}</span>
       <div className="flex">
         <p className="text-sm">Produk dari</p>
         <TokpedSVG className="ml-1.5 w-20" />
       </div>
       <div className="flex flex-row justify-between">
-        <p>{sold}</p>
+        <p>{soldString}</p>
         <div>
-          <span className="mr-1">{rating_average}</span>
+          <span className="mr-1">{ratingString}</span>
           <FontAwesomeIcon icon={faStar} className="text-yellow-500 text-sm" />
         </div>
       </div>
