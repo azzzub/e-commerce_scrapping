@@ -8,11 +8,18 @@ interface WidgetProps {
   product: TokpedProduct
 }
 
+const clickHandler = (url: string) => {
+  window.open(url)
+}
+
 const ProductWidget: React.FC<WidgetProps> = ({ product }) => {
   const { name, priceString, soldString, url, imageUrl, ratingString } = product
 
   return (
-    <div className="flex flex-col cursor-pointer hover:opacity-80">
+    <div
+      onClick={() => clickHandler(url)}
+      className="flex flex-col cursor-pointer hover:opacity-80"
+    >
       <img className="rounded-3xl" src={imageUrl} />
       <span className="text-sm mt-1">{name}</span>
       <span className="font-extrabold text-lg">{priceString}</span>

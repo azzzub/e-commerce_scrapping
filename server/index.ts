@@ -5,6 +5,7 @@ import axios from 'axios'
 import dotenv from 'dotenv'
 import Tokped from './@types/TokpedResponse'
 import finalArray from './helper/arraySorting'
+import Shopee from './@types/ShopeeResponse'
 dotenv.config()
 
 const app = express()
@@ -90,7 +91,6 @@ const tokpedFetch = async (req: Request, res: Response) => {
       const jsonData = {
         totalData,
         products: soldSortingArray
-        // products: rawDataTokped
       }
 
       res.json(jsonData)
@@ -103,17 +103,71 @@ const tokpedFetch = async (req: Request, res: Response) => {
 }
 
 const shopeeFetch = async (req: Request, res: Response) => {
-  const URL = 'https://shopee.co.id/api/v2/search_items'
+  const keyword = req.query.keyword ?? null
+
+  const URL = 'https://shopee.co.id/api/v2/search_items/'
   const params = {
-    keyword: 'macbook pro',
+    keyword,
     by: 'relevancy',
     page_type: 'search',
-    version: '2'
+    version: '2',
+    limit: 50,
+    newest: 0,
+    order: 'desc'
   }
+
+  const headers = {
+    'if-none-match-': '*'
+  }
+
   try {
-    const response = await axios.get(URL, { params })
+    if (!keyword) {
+      throw new Error('check your query again!')
+    }
+
+    const response = await axios.get(URL, { params, headers })
+
+    const rawShopeeData: Shopee.ShopeeResponse = response.data
+
+    const products = rawShopeeData.items
+
+    let shopeeProductFinal: any[] = []
+
+    products.map((product: Shopee.ShopeeItems) => {
+      const soldString =
+        'Terjual ' +
+        (product.sold < 1000
+          ? product.sold
+          : (product.sold / 1000).toFixed(1).replace('.', ',') + ' rb')
+
+      const price = (product.price / 100000).toFixed(0)
+      const priceString =
+        'Rp' + parseInt(price).toLocaleString().replace(',', '.')
+      const ecom = 'Shopee'
+
+      const object = {
+        name: product.name,
+        imageUrl: `https://cf.shopee.co.id/file/${product.image}_tn`,
+        url: `https://shopee.co.id/${product.name.replace(/ /g, '-')}-i.${
+          product.shopid
+        }.${product.itemid}`,
+        sold: product.sold,
+        soldString,
+        price,
+        priceString,
+        ecom
+      }
+      shopeeProductFinal.push(object)
+    })
+
+    const shopeeFinalData = {
+      totalData: rawShopeeData.total_count,
+      products: shopeeProductFinal
+      // rawProd: rawShopeeData
+    }
+
     if (response) {
-      res.json(response.data)
+      res.json(shopeeFinalData)
     }
   } catch (error) {
     res.status(400).json({
