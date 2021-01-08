@@ -4,6 +4,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import Head from 'next/head'
 import ProductWidget from '../components/widget/ProductWidget'
+import ProductWidgetLoading from '../components/loading/ProductWidgetLoading'
 
 const Homepage = () => {
   const [keyword, setKeyword] = useState('')
@@ -119,7 +120,7 @@ const Homepage = () => {
           <input
             className="bg-transparent text-gray-700 mr-3 w-full lg:w-96"
             type="text"
-            placeholder="Search for items, brand, and inspiration"
+            placeholder="Cari barang, merk, dll"
             required
             onChange={handleKeywordChange}
           />
@@ -140,19 +141,23 @@ const Homepage = () => {
           Fetch Data!
         </button>
       </form> */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
-        {data
-          ? data.products.map((product: TokpedProduct, index: number) => (
-              <ProductWidget key={index} product={product} />
-            ))
-          : null}
-        {/* {dummyProduct.map((product, index) => (
+      {isLoading ? (
+        <ProductWidgetLoading />
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+          {data
+            ? data.products.map((product: TokpedProduct, index: number) => (
+                <ProductWidget key={index} product={product} />
+              ))
+            : null}
+          {/* {dummyProduct.map((product, index) => (
           <Widget key={index} product={product} />
         ))}
         {dummyProduct.map((product, index) => (
           <Widget key={index} product={product} />
         ))} */}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
