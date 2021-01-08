@@ -1,11 +1,17 @@
 declare module Shopee {
+  interface ItemRating {
+    rating_star: number
+  }
+
   interface ShopeeItems {
     itemid: number
     image: string
-    sold: number
+    historical_sold: number
     price: number
     name: string
     shopid: number
+    item_rating: ItemRating
+    ecom: string
   }
 
   interface ShopeeResponse {

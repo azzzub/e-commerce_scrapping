@@ -1,5 +1,5 @@
-declare module TokpedFinalResponse {
-  interface TokpedJSON {
+declare module ShopeeFinalResponse {
+  interface ShopeeJSON {
     id: number
     name: string
     url: string
@@ -10,13 +10,12 @@ declare module TokpedFinalResponse {
     soldString: string
     rating: number
     ratingString: string
-    ecom: string
   }
 
-  interface TokpedOutputResponse {
+  interface ShopeeOutputResponse {
     totalData: number
-    products: TokpedJSON[]
+    products: ShopeeJSON[]
   }
 }
 
-export default TokpedFinalResponse
+export default ShopeeFinalResponse
