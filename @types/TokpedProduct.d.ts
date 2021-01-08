@@ -8,4 +8,5 @@ interface TokpedProduct {
   soldString: string
   rating: number
   ratingString: string
+  ecom: string
 }
