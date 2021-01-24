@@ -17,7 +17,7 @@ const ShopeeFetch = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const headers = {
-    'if-none-match-': '*'
+    'if-none-match-': '55b03-cf8d115baab87af0f664f68af8099661'
   }
 
   try {

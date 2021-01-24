@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "next",
-    "start": "next index.js",
-    "build": "next build"
+    "start": "next start -p $PORT",
+    "build": "next build",
+    "export": "next export"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
