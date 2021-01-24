@@ -12,6 +12,7 @@ const Homepage = () => {
   const [page, setPage] = useState('1')
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState(null)
+  const [finalKeyword, setFinalKeyword] = useState('')
 
   const dummyProduct = [
     {
@@ -86,8 +87,9 @@ const Homepage = () => {
     event.preventDefault()
     setIsLoading(true)
     setData(null)
+    setFinalKeyword(keyword)
     // const URL = 'http://localhost:5000/tokped/simple'
-    const URL = 'http://localhost:5000/ecom/simple'
+    const URL = `http://${window.location.host}/api/ecom`
     try {
       const response = await axios.get(URL, {
         params: {
@@ -109,7 +111,7 @@ const Homepage = () => {
   return (
     <div className="mx-5 my-3 md:mx-10 md:my-4 lg:mx-32 lg:my-7">
       <Head>
-        <title>Pricey</title>
+        <title>Pricey {finalKeyword === '' ? '' : `- ${finalKeyword}`}</title>
       </Head>
       <nav className="flex flex-col md:flex-row w-full h-auto items-center justify-between mb-7">
         <h1>pricey</h1>

@@ -4,6 +4,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 import TokpedSVG from '../svg/tokped-logo.svg'
 import ShopeeSVG from '../svg/shopee-logo.svg'
 import charLimiting from '../../helper/charLimiting'
+import Image from 'next/image'
 
 interface WidgetProps {
   key: number
@@ -30,7 +31,13 @@ const ProductWidget: React.FC<WidgetProps> = ({ product }) => {
       onClick={() => clickHandler(url)}
       className="flex flex-col cursor-pointer hover:opacity-80 border-2 border-gray-50 rounded-b-2xl shadow-md"
     >
-      <img className="rounded-b-2xl" src={imageUrl} />
+      <Image
+        className="rounded-b-2xl"
+        src={imageUrl}
+        alt={name}
+        width={250}
+        height={250}
+      />
       <div className="p-1 flex flex-col">
         <span className="text-sm mt-1">{charLimiting(name).toLowerCase()}</span>
         <span className="font-extrabold text-lg">{priceString}</span>
