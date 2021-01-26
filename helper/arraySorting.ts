@@ -1,4 +1,4 @@
-import TokpedFinalResponse from '../pages/api/TokpedFinalResponse'
+import TokpedFinalResponse from '../components/api/TokpedFinalResponse'
 
 const compare = (
   a: TokpedFinalResponse.TokpedJSON,
