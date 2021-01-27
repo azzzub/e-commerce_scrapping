@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import Head from 'next/head'
 import ProductWidget from '../components/widget/ProductWidget'
 import ProductWidgetLoading from '../components/loading/ProductWidgetLoading'
-import EcomFetch from '../components/api/ecom'
-import TokpedFetch from '../components/api/tokped'
-import ShopeeFetch from '../components/api/shopee'
+import axios from 'axios'
 
 const Homepage = () => {
   const [keyword, setKeyword] = useState('')
@@ -33,13 +31,32 @@ const Homepage = () => {
     setIsLoading(true)
     setData(null)
     setFinalKeyword(keyword)
+
     try {
-      setData(await EcomFetch({ keyword }))
+      const ecomFetch = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/ecom`,
+        {
+          params: {
+            keyword
+          }
+        }
+      )
+      if (ecomFetch) {
+        // console.log(ecomFetch.data)
+        setData(ecomFetch.data)
+      }
     } catch (error) {
       alert(error)
     }
     setIsLoading(false)
   }
+
+  useEffect(() => {
+    // console.log(
+    //   'process.env.API_ENDPOINT',
+    //   process.env.NEXT_PUBLIC_API_ENDPOINT
+    // )
+  }, [])
 
   return (
     <div className="mx-5 my-3 md:mx-10 md:my-4 lg:mx-32 lg:my-7">

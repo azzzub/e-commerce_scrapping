@@ -2,6 +2,6 @@ node_modules
 .next
 yarn.lock
 yarn-error.log
-.env
+.env*
 out
 .vercel

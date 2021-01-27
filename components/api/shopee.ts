@@ -1,5 +1,6 @@
 import axios from 'axios'
-import Shopee from './ShopeeResponse'
+import ShopeeFinalResponse from '../../@types/api/ShopeeFinalResponse'
+import Shopee from '../../@types/api/ShopeeResponse'
 
 const ShopeeFetch = async ({ keyword }) => {
   const URL =
@@ -62,13 +63,13 @@ const ShopeeFetch = async ({ keyword }) => {
       shopeeProductFinal.push(object)
     })
 
-    const shopeeFinalData = {
+    const shopeeFinalData: ShopeeFinalResponse.ShopeeOutputResponse = {
       totalData: rawShopeeData.total_count,
       products: shopeeProductFinal
       // rawProd: rawShopeeData
     }
 
-    console.log(shopeeFinalData)
+    // console.log(shopeeFinalData)
     return shopeeFinalData
   } catch (error) {
     throw Error(error.message)

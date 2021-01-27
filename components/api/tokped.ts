@@ -1,7 +1,7 @@
 import axios from 'axios'
-import Tokped from './TokpedResponse'
+import Tokped from '../../@types/api/TokpedResponse'
 import finalArray from '../../helper/arraySorting'
-import TokpedFinalResponse from './TokpedFinalResponse'
+import TokpedFinalResponse from '../../@types/api/TokpedFinalResponse'
 
 const TokpedFetch = async ({ keyword }) => {
   const URL =
