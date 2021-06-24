@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
 import Head from 'next/head'
 import ProductWidget from '../components/widget/ProductWidget'
 import ProductWidgetLoading from '../components/loading/ProductWidgetLoading'
+import EcomFetch from '../components/api/ecom'
+// import TokpedFetch from '../components/api/tokped'
+// import ShopeeFetch from '../components/api/shopee'
 
 const Homepage = () => {
   const [keyword, setKeyword] = useState('')
@@ -13,63 +15,6 @@ const Homepage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState(null)
   const [finalKeyword, setFinalKeyword] = useState('')
-
-  const dummyProduct = [
-    {
-      name: 'This is the Long Product Name Blabla',
-      price: 'Rp. 2,333,333',
-      sold: 'Terjual 10',
-      url: '/',
-      image_url:
-        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
-      rating_average: '4,4'
-    },
-    {
-      name: 'This is the Long Product Name Blabla',
-      price: 'Rp. 2,333,333',
-      sold: 'Terjual 10',
-      url: '/',
-      image_url:
-        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
-      rating_average: '4,4'
-    },
-    {
-      name: 'This is the Long Product Name Blabla',
-      price: 'Rp. 2,333,333',
-      sold: 'Terjual 10',
-      url: '/',
-      image_url:
-        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
-      rating_average: '4,4'
-    },
-    {
-      name: 'This is the Long Product Name Blabla',
-      price: 'Rp. 2,333,333',
-      sold: 'Terjual 10',
-      url: '/',
-      image_url:
-        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
-      rating_average: '4,4'
-    },
-    {
-      name: 'This is the Long Product Name Blabla',
-      price: 'Rp. 2,333,333',
-      sold: 'Terjual 10',
-      url: '/',
-      image_url:
-        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
-      rating_average: '4,4'
-    },
-    {
-      name: 'This is the Long Product Name Blabla',
-      price: 'Rp. 2,333,333',
-      sold: 'Terjual 10',
-      url: '/',
-      image_url:
-        'https://ecs7-p.tokopedia.net/img/cache/200-square/product-1/2020/8/29/47902568/47902568_ae358636-4e7d-4601-8e36-87cd5740f8fa_1000_1000',
-      rating_average: '4,4'
-    }
-  ]
 
   const handleKeywordChange = (event) => {
     setKeyword(event.target.value)
@@ -88,20 +33,8 @@ const Homepage = () => {
     setIsLoading(true)
     setData(null)
     setFinalKeyword(keyword)
-    // const URL = 'http://localhost:5000/tokped/simple'
-    const URL = `http://${window.location.host}/api/ecom`
     try {
-      const response = await axios.get(URL, {
-        params: {
-          keyword,
-          min_price: minPrice,
-          page
-        }
-      })
-
-      if (response) {
-        setData(response.data)
-      }
+      setData(await EcomFetch({ keyword }))
     } catch (error) {
       alert(error)
     }
@@ -126,12 +59,13 @@ const Homepage = () => {
             required
             onChange={handleKeywordChange}
           />
-          <FontAwesomeIcon
-            className="cursor-pointer"
-            type="submit"
-            onClick={fetchHandler}
-            icon={faSearch}
-          />
+          <button type="submit">
+            <FontAwesomeIcon
+              className="cursor-pointer p-2"
+              icon={faSearch}
+              size="2x"
+            />
+          </button>
         </form>
       </nav>
       {/* <form className="flex flex-col" onSubmit={fetchHandler}>

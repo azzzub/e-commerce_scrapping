@@ -1,11 +1,9 @@
 import axios from 'axios'
-import { NextApiRequest, NextApiResponse } from 'next'
 import Shopee from './ShopeeResponse'
 
-const ShopeeFetch = async (req: NextApiRequest, res: NextApiResponse) => {
-  const keyword = req.query.keyword ?? null
-
-  const URL = 'https://shopee.co.id/api/v2/search_items/'
+const ShopeeFetch = async ({ keyword }) => {
+  const URL =
+    'https://pricey.yuanaayubs.workers.dev/?https://shopee.co.id/api/v2/search_items/?'
   const params = {
     keyword,
     by: 'relevancy',
@@ -17,7 +15,9 @@ const ShopeeFetch = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const headers = {
-    'if-none-match-': '55b03-cf8d115baab87af0f664f68af8099661'
+    'if-none-match-': '*',
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/x-www-form-urlencoded'
   }
 
   try {
@@ -68,13 +68,10 @@ const ShopeeFetch = async (req: NextApiRequest, res: NextApiResponse) => {
       // rawProd: rawShopeeData
     }
 
-    if (response) {
-      res.json(shopeeFinalData)
-    }
+    console.log(shopeeFinalData)
+    return shopeeFinalData
   } catch (error) {
-    res.status(400).json({
-      message: error.message
-    })
+    throw Error(error.message)
   }
 }
 

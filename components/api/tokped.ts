@@ -2,12 +2,10 @@ import axios from 'axios'
 import Tokped from './TokpedResponse'
 import finalArray from '../../helper/arraySorting'
 import TokpedFinalResponse from './TokpedFinalResponse'
-import { NextApiRequest, NextApiResponse } from 'next'
 
-const TokpedFetch = async (req: NextApiRequest, res: NextApiResponse) => {
-  const keyword = req.query.keyword ?? null
-
-  const URL = 'https://gql.tokopedia.com/'
+const TokpedFetch = async ({ keyword }) => {
+  const URL =
+    'https://pricey.yuanaayubs.workers.dev/?https://gql.tokopedia.com/'
 
   const data = {
     query:
@@ -19,7 +17,10 @@ const TokpedFetch = async (req: NextApiRequest, res: NextApiResponse) => {
   }
   const headers = {
     'accept-language': 'id-ID,id;q=0.9',
-    cookie: ''
+    'Access-Control-Allow-Origin': 'https://tokopedia.com',
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Credentials': true
   }
 
   try {
@@ -27,7 +28,9 @@ const TokpedFetch = async (req: NextApiRequest, res: NextApiResponse) => {
       throw new Error('check your query again!')
     }
 
-    const response = await axios.post(URL, data, { headers })
+    const response = await axios.post(URL, data, {
+      headers
+    })
 
     let tokpedProduct: any[] = []
 
@@ -84,12 +87,10 @@ const TokpedFetch = async (req: NextApiRequest, res: NextApiResponse) => {
         products: soldSortingArray
       }
 
-      res.json(jsonData)
+      return jsonData
     }
   } catch (error) {
-    res.status(400).json({
-      message: error.message
-    })
+    throw Error(error.message)
   }
 }
 
