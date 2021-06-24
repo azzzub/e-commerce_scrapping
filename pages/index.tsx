@@ -5,8 +5,8 @@ import Head from 'next/head'
 import ProductWidget from '../components/widget/ProductWidget'
 import ProductWidgetLoading from '../components/loading/ProductWidgetLoading'
 import EcomFetch from '../components/api/ecom'
-import TokpedFetch from '../components/api/tokped'
-import ShopeeFetch from '../components/api/shopee'
+// import TokpedFetch from '../components/api/tokped'
+// import ShopeeFetch from '../components/api/shopee'
 
 const Homepage = () => {
   const [keyword, setKeyword] = useState('')
@@ -59,12 +59,13 @@ const Homepage = () => {
             required
             onChange={handleKeywordChange}
           />
-          <FontAwesomeIcon
-            className="cursor-pointer"
-            type="submit"
-            onClick={fetchHandler}
-            icon={faSearch}
-          />
+          <button type="submit">
+            <FontAwesomeIcon
+              className="cursor-pointer p-2"
+              icon={faSearch}
+              size="2x"
+            />
+          </button>
         </form>
       </nav>
       {/* <form className="flex flex-col" onSubmit={fetchHandler}>

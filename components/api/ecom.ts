@@ -41,9 +41,7 @@ const EcomFetch = async ({ keyword }) => {
       return finalResponse
     }
   } catch (error) {
-    return {
-      message: error.message
-    }
+    throw Error(error.message)
   }
 }
 

@@ -6,6 +6,10 @@
   outline: none;
 }
 
+button {
+  outline: none;
+}
+
 h1 {
   @apply text-2xl font-bold;
 }
